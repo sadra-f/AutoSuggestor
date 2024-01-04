@@ -1,9 +1,10 @@
 class Node:
-    def __init__(self, value=None, delimited=False, children=[]):
+    
+    def __init__(self, value=None, delimited=False, children=[], is_root=False):
         self.value = value
         self.is_delimited = delimited
         self.children = children
-    
+        self.is_root = is_root
     
     def have_child(self, value):
         try:
@@ -24,4 +25,4 @@ class Node:
         
     @property
     def is_leaf(self):
-        return len(self.children) == 0
+        return len(self.children) == 0 and not self.is_root
