@@ -1,14 +1,13 @@
 class Node:
-    def __init__(self, value=None, delimited=False, children=[], is_leaf=True):
+    def __init__(self, value=None, delimited=False, children=[]):
         self.value = value
         self.is_delimited = delimited
         self.children = children
-        self.is_leaf = is_leaf
     
     
     def have_child(self, value):
         try:
-            return True if self.children.index(value) else False
+            return True if self.children.index(value) > -1 else False
         except ValueError:
             return False
             
@@ -16,6 +15,13 @@ class Node:
 
     def child_index(self, value):
         try:
-            return self.children.index(value)
+            for i in range(len(self.children)):
+                if self.children[i] == value:
+                    return i
+            return -1
         except ValueError:
             return -1
+        
+    @property
+    def is_leaf(self):
+        return len(self.children) == 0
