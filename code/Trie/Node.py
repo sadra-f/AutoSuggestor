@@ -3,7 +3,7 @@ class Node:
     
     def __init__(self, value=None, parent=None, delimited=False, children=np.empty((0,), object), is_root=False):
         self.value = value
-        self.is_delimited = delimited
+        self.is_word = delimited
         self.children = children
         self.is_root = is_root
         self.parent = parent
@@ -28,7 +28,10 @@ class Node:
             return -1
         
     def remove_child(self, child):
-        child_index = self.index_by_value(child.value)
+        self.remove_child_by_value(child.value)
+
+    def remove_child_by_value(self, value):
+        child_index = self.index_by_value(value)
         if child_index < 0 : return
         self.children = np.delete(self.children, child_index)
         return
