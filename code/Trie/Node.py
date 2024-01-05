@@ -34,6 +34,10 @@ class Node:
         return
 
     @property
+    def have_any_child(self):
+        return self.children.size > 0
+
+    @property
     def is_leaf(self):
         return self.children.size == 0 and not self.is_root
     
