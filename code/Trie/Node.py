@@ -1,11 +1,12 @@
 import numpy as np
 class Node:
     
-    def __init__(self, value=None, delimited=False, children=np.empty((0,), object), is_root=False):
+    def __init__(self, value=None, parent=None, delimited=False, children=np.empty((0,), object), is_root=False):
         self.value = value
         self.is_delimited = delimited
         self.children = children
         self.is_root = is_root
+        self.parent = parent
         if not is_root and self.value == None: raise ValueError
     
     def have_child(self, value):

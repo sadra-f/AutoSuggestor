@@ -8,20 +8,20 @@ class TrieTree:
     
 
 
-    def Add(self, value):
-        search_res = self.have_value(value)
+    def append_word(self, value):
+        search_res = self.search(value)
         if search_res.exists : return
         current_node = search_res.last_node
         index = len(search_res.processed_chars)
         while index < len(value):
-            new_node = Node(value[index], len(value) == index + 1)
+            new_node = Node(value[index],current_node, len(value) == index + 1)
             current_node.append_child(new_node)
             current_node = new_node
             index += 1
 
 
 
-    def have_value(self, value):
+    def search(self, value):
         current_node = self.root
         index = 0
         while not current_node.is_leaf and index < len(value):
@@ -32,7 +32,6 @@ class TrieTree:
                 return TrieTree.SearchResult(True, value[0:index+1], current_node)
             index += 1
         return TrieTree.SearchResult(False, value[0:index], current_node)
-    
 
     class SearchResult:
         def __init__(self, exists, processed_chars, last_node) -> None:
