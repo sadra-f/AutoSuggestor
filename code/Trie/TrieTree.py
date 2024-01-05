@@ -11,6 +11,9 @@ class TrieTree:
     def append_word(self, value):
         search_res = self.search(value)
         if search_res.exists : return
+        elif search_res.processed_chars == value : 
+            search_res.last_node.is_delimited = True
+            return
         current_node = search_res.last_node
         index = len(search_res.processed_chars)
         while index < len(value):
@@ -32,6 +35,8 @@ class TrieTree:
                 return TrieTree.SearchResult(True, value[0:index+1], current_node)
             index += 1
         return TrieTree.SearchResult(False, value[0:index], current_node)
+
+
 
     class SearchResult:
         def __init__(self, exists, processed_chars, last_node) -> None:
