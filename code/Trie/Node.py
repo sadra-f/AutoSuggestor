@@ -27,6 +27,12 @@ class Node:
         except ValueError:
             return -1
         
+    def remove_child(self, value):
+        child_index = self.child_index(value)
+        if child_index < 0 : return
+        self.children = np.delete(self.children, child_index)
+        return
+
     @property
     def is_leaf(self):
         return self.children.size == 0 and not self.is_root
