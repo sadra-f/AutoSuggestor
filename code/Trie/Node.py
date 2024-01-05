@@ -34,12 +34,12 @@ class Node:
         return
 
     @property
-    def have_any_child(self):
+    def has_any_child(self):
         return self.children.size > 0
 
     @property
     def is_leaf(self):
-        return self.have_any_child and not self.is_root
+        return self.has_any_child and not self.is_root
     
 
     def __str__(self):
