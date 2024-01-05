@@ -9,16 +9,16 @@ class Node:
         self.parent = parent
         if not is_root and self.value == None: raise ValueError
     
-    def have_child(self, value):
+    def exist_by_value(self, value):
         try:
-            return True if self.child_index(value) > -1 else False
+            return True if self.index_by_value(value) > -1 else False
         except ValueError:
             return False
             
     def append_child(self, value):
         self.children = np.append(self.children, value)
 
-    def child_index(self, value):
+    def index_by_value(self, value):
         try:
             for i in range(len(self.children)):
                 if self.children[i].value == value:
@@ -27,8 +27,8 @@ class Node:
         except ValueError:
             return -1
         
-    def remove_child(self, value):
-        child_index = self.child_index(value)
+    def remove_child(self, child):
+        child_index = self.index_by_value(child.value)
         if child_index < 0 : return
         self.children = np.delete(self.children, child_index)
         return
