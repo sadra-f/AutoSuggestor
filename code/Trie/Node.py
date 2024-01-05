@@ -42,7 +42,7 @@ class Node:
 
     @property
     def is_leaf(self):
-        return self.has_any_child and not self.is_root
+        return not self.has_any_child and not self.is_root
     
 
     def __str__(self):
