@@ -41,7 +41,6 @@ class TrieTree:
 
         return TrieTree.SearchResult(False, value[0:index], current_node)
 
-       
 
     def remove_word(self, value):
         search_res = self.search(value)
@@ -54,10 +53,14 @@ class TrieTree:
             current_node = current_node.parent
             rev_val = rev_val[1:]
             
+    def search_starts_with(self, value):
+        init_search = self.search(value)
+        if not init_search.exists : return None
+        
 
 
     class SearchResult:
-        def __init__(self, exists, processed_chars, last_node) -> None:
+        def __init__(self, exists:bool, processed_chars:str, last_node:Node) -> None:
             self.exists = exists
             self.processed_chars = processed_chars
             self.last_node = last_node
