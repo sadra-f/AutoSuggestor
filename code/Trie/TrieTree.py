@@ -53,10 +53,21 @@ class TrieTree:
             current_node = current_node.parent
             rev_val = rev_val[1:]
             
-    def search_starts_with(self, value):
-        init_search = self.search(value)
-        if not init_search.exists : return None
-        
+            
+    def search_starts_with(self, value:str):
+        search_res = self.search(value)
+        results = []
+        if value != search_res.processed_chars : return results
+        stack = []
+        # (node, str_until_node)
+        stack.append((search_res.last_node, value[:-1]))
+        while len(stack) > 0:
+            popped = stack.pop()
+            current_str = popped[1] + popped[0].value
+            if popped[0].is_word : results.append(current_str)
+            for child in popped[0].children:
+                stack.append((child, current_str))
+        return results
 
 
     class SearchResult:
