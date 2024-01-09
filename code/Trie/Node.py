@@ -2,7 +2,7 @@ import numpy as np
 class Node:
     
     def __init__(self, value=None, parent=None, delimited=False, children=np.empty((0,), object), is_root=False):
-        self.value = value
+        self.value = value if not is_root else ''
         self.is_word = delimited
         self.children = children
         self.is_root = is_root
