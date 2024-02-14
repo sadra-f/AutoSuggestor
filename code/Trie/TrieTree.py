@@ -9,6 +9,11 @@ class TrieTree:
 
 
     def append_word(self, value):
+        """adds a word to the tree if it is not already there
+
+        Args:
+            value (str): the word to add if not already there
+        """
         search_res = self.search(value)
 
         if search_res.exists : return
@@ -27,6 +32,16 @@ class TrieTree:
 
 
     def search(self, value):
+        """searches for the given word in the tree returns a result obj
+
+        Args:
+            value (str): the string to search for
+
+        Returns:
+            TrieTree.SearchResult: a tuple with the first value being T/F if 
+            the string was found/not found and the second value is 
+            the portion of the string that was found and the third value is the last node visited.
+        """
         current_node = self.root
         index = 0
         while not current_node.is_leaf and index < len(value):
@@ -43,6 +58,13 @@ class TrieTree:
 
 
     def remove_word(self, value):
+        """removes a word from the tree if it exists. 
+           if there are other words that contain given
+           word the given word will be set to not be considered as a word
+
+        Args:
+            value (str): the string/word that will be removed
+        """
         search_res = self.search(value)
         if not search_res.exists : return
         rev_val = value[::-1]
@@ -55,6 +77,14 @@ class TrieTree:
             
             
     def search_starts_with(self, value:str):
+        """find words in tree that start with the given string
+
+        Args:
+            value (str): string to look for in the beginning of the words
+
+        Returns:
+            list[str]: returns the list of words that start with the given string
+        """
         search_res = self.search(value)
         results = []
         if value != search_res.processed_chars : return results
@@ -71,6 +101,12 @@ class TrieTree:
 
 
     class SearchResult:
+        """A class to contain the results of a search
+
+            exists: True if the search resulted in finding the exact given word, False otherwise
+            processed_chars: the portion of the queried string that was processed/found
+            last_node: the last node visited
+        """
         def __init__(self, exists:bool, processed_chars:str, last_node:Node) -> None:
             self.exists = exists
             self.processed_chars = processed_chars
