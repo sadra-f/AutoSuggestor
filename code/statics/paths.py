@@ -1,10 +1,10 @@
 from pathlib import Path
 #================================================================================================
 
-_BETA_NEIGHBORS_STR_PATH = 'statics/neighbors_beta.txt'
-_ALPHA_NEIGHBORS_STR_PATH = 'statics/neighbors_alpha.txt'
-_ALL_NEIGHBORS_STR_PATH = 'statics/neighbors_all.txt'
-_WORD_SET_STR_PATH = '../dataset/words.txt'
+_BETA_NEIGHBORS_STR_PATH = 'code/statics/neighbors_beta.txt'
+_ALPHA_NEIGHBORS_STR_PATH = 'code/statics/neighbors_alpha.txt'
+_ALL_NEIGHBORS_STR_PATH = 'code/statics/neighbors_all.txt'
+_WORD_SET_STR_PATH = 'dataset/words.txt'
 
 #================================================================================================
 
