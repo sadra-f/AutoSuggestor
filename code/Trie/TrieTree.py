@@ -4,6 +4,7 @@ class TrieTree:
     
     def __init__(self):
         self.word_count = 0
+        self._abs_word_count = 0
         self.root = Node(is_root=True)
     
 
@@ -19,6 +20,8 @@ class TrieTree:
         if search_res.exists : return
         elif search_res.processed_chars == value : 
             search_res.last_node.is_word = True
+            self.word_count += 1
+            self._abs_word_count += 1
             return
         
         current_node = search_res.last_node
@@ -28,6 +31,8 @@ class TrieTree:
             current_node.append_child(new_node)
             current_node = new_node
             index += 1
+        self._abs_word_count += 1
+        self.word_count += 1
 
 
 
@@ -74,6 +79,7 @@ class TrieTree:
             current_node.parent.remove_child_by_value(rev_val[0])
             current_node = current_node.parent
             rev_val = rev_val[1:]
+        self.word_count -= 1
             
             
     def search_starts_with(self, value:str):
