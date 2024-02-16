@@ -15,7 +15,7 @@ class Suggester:
         self._neighbors = None
         self.load_raw_neighbors()
         self.word_set = None
-        self.load_pickled_datasets()
+        self.load_pickled_dataset()
         print()
 
 
