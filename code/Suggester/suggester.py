@@ -27,6 +27,6 @@ class Suggester:
     
     def load_raw_dataset(self):
         self.word_set = TTree()
-        with open(WORD_SET_PATH, 'r') as file:
+        with open(ALL_WORD_SET_PATH, 'r') as file:
             for line in file:
                 self.word_set.append_word(line.strip())
