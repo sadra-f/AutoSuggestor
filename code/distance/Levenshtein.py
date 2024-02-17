@@ -11,7 +11,7 @@ class LevenshteinDistance:
         for i in range(1, LEN_1, 1):
             for j in range(1, LEN_2, 1):
                 local_min = min(distance_matrix[i-1, j], distance_matrix[i, j-1],distance_matrix[i-1][j-1])
-                distance_matrix[i, j] = local_min if str1[i-1] == str2[j-1] else local_min + 1
+                distance_matrix[i, j] = distance_matrix[i-1][j-1] if str1[i-1] == str2[j-1] else local_min + 1
         return (distance_matrix[LEN_1 - 1][LEN_2 - 1], distance_matrix)
 
     def _build_distance_matrix(LEN_1, LEN_2):
