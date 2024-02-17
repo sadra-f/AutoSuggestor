@@ -14,27 +14,27 @@ class Suggester:
     PICKLE_PATHS = {DATASET_MODES[0] : PICKLED_WORD_SET_PATH, DATASET_MODES[1] : PICKLED_ALPHA_WORD_SET_PATH}
 
     MAX_SUGGESTION_COUNT = 8
-    
+
     def __init__(self, mode:str, dataset_mode:str) -> None:
-        #TODO : remove load methods and maybe add another method to do that ***
         self.mode = mode
+
         if mode not in Suggester.SUGGESTION_MODES:
             raise ValueError(f'mode must be one of the modes specified in the MODES list Options are: {Suggester.SUGGESTION_MODES}')
-        self._neighbors_path = Suggester.NEIGHBOR_PATHS[self.mode]
         self._neighbors = None
+        
         self.load_raw_neighbors()
 
         self._dataset_mode = dataset_mode
         if self._dataset_mode not in Suggester.DATASET_MODES:
             raise ValueError(f'dataset mode must be one of the modes specified in the DATASET_MODES list, Options are: {Suggester.DATASET_MODES}')
         self.tt = None # Trie Tree of words in dataset
+
         self.load_pickled_dataset()
-        print()
 
 
     def load_raw_neighbors(self):
         self._neighbors = dict()
-        with open(self._neighbors_path.absolute(), 'r') as file:
+        with open(Suggester.NEIGHBOR_PATHS[self.mode], 'r') as file:
             for line in file:
                 separated = line.strip().split(' ')
                 main_char = separated[0]
@@ -49,11 +49,11 @@ class Suggester:
 
 
     def save_pickled_dataset(self):
-        with open(Suggester.PICKLE_PATHS[self.mode], 'wb') as file:
+        with open(Suggester.PICKLE_PATHS[self._dataset_mode], 'wb') as file:
             pickle.dump(self.tt, file, 4)
     
     def load_pickled_dataset(self):
-        with open(Suggester.PICKLE_PATHS[self.mode], 'rb') as file:
+        with open(Suggester.PICKLE_PATHS[self._dataset_mode], 'rb') as file:
             self.tt = pickle.load(file)
 
 
@@ -66,7 +66,7 @@ class Suggester:
         #check variations
         suggestions = []
         tmp_word = word
-        for character in self._neighbors[word[-1].lower()]:
+        for character in self._neighbors[word[-1]]:
             tmp_word = tmp_word[:-1] + character
             if self.tt.search(tmp_word).exists:
                 suggestions.append((tmp_word, LD.calculateDistance(word, tmp_word)[0]))
