@@ -106,7 +106,21 @@ class TrieTree:
         return results
 
     def search_conditional(self, start_With:str, end_With:str=None, min_length:int=None, max_length:int=None):
-        if start_With is None: raise ValueError
+        """find words in the tree that satisfy the specified conditions.
+
+        Args:
+            start_With (str): Condition for the start of each word.
+            end_With (str, optional): Condition for the ending for each word. Defaults to None.
+            min_length (int, optional): Minimum length acceptable for each word. Defaults to None.
+            max_length (int, optional): Maximum length acceptable for each word. Defaults to None.
+
+        Raises:
+            ValueError: raised if the the start_with value is not a valid
+
+        Returns:
+            list[str]: A list of words in the tree that satisfy the specified conditions
+        """
+        if start_With is None or len(start_With) == 0: raise ValueError
 
         search_res = self.search(start_With)
         results = []
@@ -117,7 +131,8 @@ class TrieTree:
         while len(stack) > 0:
             popped = stack.pop()
             current_str = popped[1] + popped[0].value
-            if popped[0].is_word : 
+            if popped[0].is_word :
+                # apply conditions
                 do_append = True
                 if end_With is not None:
                     if current_str[-len(end_With):] != end_With: do_append = False
@@ -127,6 +142,7 @@ class TrieTree:
                     if len(current_str) > max_length : do_append = False
                 if do_append : 
                     results.append(current_str)
+
             for child in popped[0].children:
                 stack.append((child, current_str))
         return results
