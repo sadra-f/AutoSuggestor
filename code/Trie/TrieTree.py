@@ -105,7 +105,7 @@ class TrieTree:
                 stack.append((child, current_str))
         return results
 
-    def search_conditional(self, start_With:str, end_With:str=None, min_length:int=None, max_length:int=None):
+    def search_conditional(self, start_With:str, end_With:str=None, min_length:int=None, max_length:int=None, max_count:int=None):
         """find words in the tree that satisfy the specified conditions.
 
         Args:
@@ -142,6 +142,7 @@ class TrieTree:
                     if len(current_str) > max_length : do_append = False
                 if do_append : 
                     results.append(current_str)
+            if len(results) >= max_count : break
 
             for child in popped[0].children:
                 stack.append((child, current_str))
