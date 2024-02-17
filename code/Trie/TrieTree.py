@@ -19,12 +19,12 @@ class TrieTree:
 
         if search_res.exists : return
         elif search_res.processed_chars == value : 
-            search_res.last_node.is_word = True
+            search_res._last_node.is_word = True
             self.word_count += 1
             self._abs_word_count += 1
             return
         
-        current_node = search_res.last_node
+        current_node = search_res._last_node
         index = len(search_res.processed_chars)
         while index < len(value):
             new_node = Node(value[index],current_node, len(value) == index + 1)
@@ -73,7 +73,7 @@ class TrieTree:
         search_res = self.search(value)
         if not search_res.exists : return
         rev_val = value[::-1]
-        current_node = search_res.last_node
+        current_node = search_res._last_node
         current_node.is_word = False
         while not (current_node.is_word or current_node.has_any_child or current_node.is_root) :
             current_node.parent.remove_child_by_value(rev_val[0])
@@ -96,7 +96,7 @@ class TrieTree:
         if value != search_res.processed_chars : return results
         stack = []
         # (node, str_until_node)
-        stack.append((search_res.last_node, value[:-1]))
+        stack.append((search_res._last_node, value[:-1]))
         while len(stack) > 0:
             popped = stack.pop()
             current_str = popped[1] + popped[0].value
@@ -116,5 +116,5 @@ class TrieTree:
         def __init__(self, exists:bool, processed_chars:str, last_node:Node) -> None:
             self.exists = exists
             self.processed_chars = processed_chars
-            self.last_node = last_node
+            self._last_node = last_node
             
