@@ -105,6 +105,31 @@ class TrieTree:
                 stack.append((child, current_str))
         return results
 
+    def search_conditional(self, start_With:str, end_With:str=None, min_length:int=None, max_length:int=None):
+        if start_With is None: raise ValueError
+
+        search_res = self.search(start_With)
+        results = []
+        if start_With != search_res.processed_chars : return results
+        stack = []
+        # (node, str_until_node)
+        stack.append((search_res._last_node, start_With[:-1]))
+        while len(stack) > 0:
+            popped = stack.pop()
+            current_str = popped[1] + popped[0].value
+            if popped[0].is_word : 
+                do_append = True
+                if end_With is not None:
+                    if current_str[-len(end_With):] != end_With: do_append = False
+                if min_length is not None:
+                    if len(current_str) < min_length : do_append = False
+                if max_length is not None:
+                    if len(current_str) > max_length : do_append = False
+                if do_append : 
+                    results.append(current_str)
+            for child in popped[0].children:
+                stack.append((child, current_str))
+        return results
 
     class SearchResult:
         """A class to contain the results of a search
