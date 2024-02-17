@@ -113,7 +113,8 @@ class TrieTree:
             end_With (str, optional): Condition for the ending for each word. Defaults to None.
             min_length (int, optional): Minimum length acceptable for each word. Defaults to None.
             max_length (int, optional): Maximum length acceptable for each word. Defaults to None.
-
+            max_count (int, optional): Maximum number of words to return. Defaults to None.
+            
         Raises:
             ValueError: raised if the the start_with value is not a valid
 
