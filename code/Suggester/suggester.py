@@ -24,8 +24,8 @@ class Suggester:
         self._dataset_mode = dataset_mode
         if self._dataset_mode not in Suggester.DATASET_MODES:
             raise ValueError(f'dataset mode must be one of the modes specified in the DATASET_MODES list, Options are: {Suggester.DATASET_MODES}')
-        self.word_set = None
-        self.load_raw_dataset()
+        self.tt = None # Trie Tree of words in dataset
+        self.load_pickled_dataset()
         print()
 
 
@@ -39,20 +39,42 @@ class Suggester:
                 self._neighbors[main_char] = separated
     
     def load_raw_dataset(self):
-        self.word_set = TTree()
+        self.tt = TTree()
         with open(Suggester.DATASET_PATHS[self._dataset_mode], 'r') as file:
             for line in file:
-                self.word_set.append_word(line.strip())
+                self.tt.append_word(line.strip())
 
 
     def save_pickled_dataset(self):
         with open(Suggester.PICKLE_PATHS[self.mode], 'wb') as file:
-            pickle.dump(self.word_set, file, 4)
+            pickle.dump(self.tt, file, 4)
     
     def load_pickled_dataset(self):
         with open(Suggester.PICKLE_PATHS[self.mode], 'rb') as file:
-            self.word_set = pickle.load(file)
+            self.tt = pickle.load(file)
 
 
-    def make_suggestion(self, word):
-        pass
+    def make_suggestion(self, word:str):
+        if len(word) < 2: raise ValueError
+
+        if self.tt.search(word).exists:
+            return self.tt.search_conditional(word, max_length=len(word)+1)[1:]
+        
+        #check variations
+        suggestions = []
+        tmp_word = word
+        for character in self._neighbors[word[-1].lower()]:
+            tmp_word = tmp_word[:-1] + character
+            if self.tt.search(tmp_word).exists:
+                suggestions.append((tmp_word, LD.calculateDistance(word, tmp_word)[0]))
+
+        if len(suggestions) > 0 : 
+            suggestions = sorted(suggestions, key=lambda x: x[1])
+            return suggestions
+        
+        min_len = int(len(word)/2)
+        tmp_sug = self.tt.search_conditional(word[:-1], min_length= len(word)-1, max_length= len(word) + 1)
+        for sug in tmp_sug:
+            suggestions.append((sug, LD.calculateDistance(sug, word)[0]))
+        suggestions = sorted(suggestions, key=lambda x: x[1])
+        return suggestions
